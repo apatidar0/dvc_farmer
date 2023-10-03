@@ -16,6 +16,8 @@ stages:
     - artifact/by_region.png
     - artifact/Logistic.joblib
     - artifact/Logistic_model.tar.gz
+    - artifact/classification_report.csv
+    - artifact/confusion_matrix.png
     metrics:
     - artifact/metrics.json:
         cache: false
