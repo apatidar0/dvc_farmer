@@ -14,6 +14,7 @@ import joblib
 import tarfile
 import zipfile
 import os , sys
+from sklearn.metrics import confusion_matrix, classification_report
 
 
 os.makedirs(os.path.join('artifact'), exist_ok=True)
@@ -69,3 +70,33 @@ joblib.dump(clf, 'artifact/Logistic.joblib')
 # Create a tar.gz file
 with tarfile.open('artifact/Logistic_model.tar.gz', 'w:gz') as tar:
     tar.add('artifact/Logistic.joblib')
+
+
+# Calculate confusion matrix
+confusion = confusion_matrix(y, yhat)
+
+# Extract values from confusion matrix
+tn, fp, fn, tp = confusion.ravel()
+
+# Calculate specificity and sensitivity
+specificity = tn / (tn + fp)
+sensitivity = tp / (tp + fn)
+
+# Create a heatmap for the confusion matrix
+plt.figure(figsize=(6, 4))  # Set dimensions here (width, height)
+sns.set(font_scale=1.2)
+sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues',
+            xticklabels=['Predicted 0', 'Predicted 1'],
+            yticklabels=['Actual 0', 'Actual 1'])
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+
+# Save the heatmap as confusion_matrix.png
+plt.savefig("artifact/confusion_matrix.png", dpi=80)
+
+# Save a table form of the classification report
+classification_report_df = pd.DataFrame(classification_report(y, yhat, output_dict=True)).transpose()
+classification_report_df.to_csv('artifact/classification_report.csv', index=True)
+
+
