@@ -1,0 +1,22 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py data/data_raw.csv
+    deps:
+    - data/data_raw.csv
+    - src/prepare.py
+    outs:
+    - data/data_prepared.csv
+    
+  train:
+    cmd: python src/train.py data/data_prepared.csv
+    deps:
+    - data/data_prepared.csv
+    - src/train.py
+    outs:
+    - artifact/by_region.png
+    - artifact/Logistic.joblib
+    - artifact/Logistic_model.tar.gz
+    metrics:
+    - artifact/metrics.json:
+        cache: false
+

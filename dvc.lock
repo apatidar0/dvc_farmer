@@ -1,0 +1,46 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py data/data_raw.csv
+    deps:
+    - path: data/data_raw.csv
+      hash: md5
+      md5: b427a8c0156e79f12e418b08cde43c7e
+      size: 68868
+    - path: src/prepare.py
+      hash: md5
+      md5: 8b055f9b6346119f8adc2eae358b6676
+      size: 1188
+    outs:
+    - path: data/data_prepared.csv
+      hash: md5
+      md5: 158e89210e2cf3766064ff0653ca6834
+      size: 23916
+  train:
+    cmd: python src/train.py data/data_prepared.csv
+    deps:
+    - path: data/data_prepared.csv
+      hash: md5
+      md5: 158e89210e2cf3766064ff0653ca6834
+      size: 23916
+    - path: src/train.py
+      hash: md5
+      md5: 7dd95d3c7df1510013572c770a399d1e
+      size: 1865
+    outs:
+    - path: artifact/Logistic.joblib
+      hash: md5
+      md5: 326bbde74c9ed77a560d677036bf1434
+      size: 324
+    - path: artifact/Logistic_model.tar.gz
+      hash: md5
+      md5: df873e43c48a45f52b05d36e8ce6db8c
+      size: 473
+    - path: artifact/by_region.png
+      hash: md5
+      md5: 3c0365651973d691a7f266bb7170c200
+      size: 7907
+    - path: artifact/metrics.json
+      hash: md5
+      md5: f4844c28505568f336c5f91db3f1beb3
+      size: 89
