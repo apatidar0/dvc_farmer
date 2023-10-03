@@ -25,8 +25,8 @@ stages:
       size: 23916
     - path: src/train.py
       hash: md5
-      md5: 7dd95d3c7df1510013572c770a399d1e
-      size: 1865
+      md5: 0bc0060e29f3f436fd8506da161d0696
+      size: 2883
     outs:
     - path: artifact/Logistic.joblib
       hash: md5
@@ -34,12 +34,20 @@ stages:
       size: 324
     - path: artifact/Logistic_model.tar.gz
       hash: md5
-      md5: df873e43c48a45f52b05d36e8ce6db8c
-      size: 473
+      md5: 244d2adc9f4459f9491989c1513cc912
+      size: 475
     - path: artifact/by_region.png
       hash: md5
-      md5: 3c0365651973d691a7f266bb7170c200
-      size: 7907
+      md5: 250ea7ae2f56db776fb64c7352e047fe
+      size: 7898
+    - path: artifact/classification_report.csv
+      hash: md5
+      md5: 397f00e16e43c65410b783559dee99c7
+      size: 369
+    - path: artifact/confusion_matrix.png
+      hash: md5
+      md5: c56bba64da8c0dc8eb08a6aa9c0174c3
+      size: 15568
     - path: artifact/metrics.json
       hash: md5
       md5: f4844c28505568f336c5f91db3f1beb3
