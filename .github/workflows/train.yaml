@@ -37,4 +37,4 @@ jobs:
           dvc repro 
           
           git fetch --prune
-          dvc metrics show
+          dvc metrics show --md
