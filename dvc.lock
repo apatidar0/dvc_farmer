@@ -1,0 +1,54 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py data/data_raw.csv
+    deps:
+    - path: data/data_raw.csv
+      hash: md5
+      md5: b427a8c0156e79f12e418b08cde43c7e
+      size: 68868
+    - path: src/prepare.py
+      hash: md5
+      md5: 8b055f9b6346119f8adc2eae358b6676
+      size: 1188
+    outs:
+    - path: data/data_prepared.csv
+      hash: md5
+      md5: 158e89210e2cf3766064ff0653ca6834
+      size: 23916
+  train:
+    cmd: python src/train.py data/data_prepared.csv
+    deps:
+    - path: data/data_prepared.csv
+      hash: md5
+      md5: 158e89210e2cf3766064ff0653ca6834
+      size: 23916
+    - path: src/train.py
+      hash: md5
+      md5: 0bc0060e29f3f436fd8506da161d0696
+      size: 2883
+    outs:
+    - path: artifact/Logistic.joblib
+      hash: md5
+      md5: 326bbde74c9ed77a560d677036bf1434
+      size: 324
+    - path: artifact/Logistic_model.tar.gz
+      hash: md5
+      md5: e40bbd8b91a1299610c5f84720019e95
+      size: 474
+    - path: artifact/by_region.png
+      hash: md5
+      md5: c70b55c18614bf8714c3a0885c71b870
+      size: 7907
+    - path: artifact/classification_report.csv
+      hash: md5
+      md5: 397f00e16e43c65410b783559dee99c7
+      size: 369
+    - path: artifact/confusion_matrix.png
+      hash: md5
+      md5: c56bba64da8c0dc8eb08a6aa9c0174c3
+      size: 15568
+    - path: artifact/metrics.json
+      hash: md5
+      md5: f4844c28505568f336c5f91db3f1beb3
+      size: 89
