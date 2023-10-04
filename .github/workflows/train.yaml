@@ -1,39 +1,28 @@
-name: farmers
-
+name: model-training
 on: [push]
-
 jobs:
   run:
     runs-on: ubuntu-latest
+    container: ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      - name: Install AWS CLI and sudo
-        run: |
-          sudo apt-get update && sudo apt-get install -y unzip
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
-          sudo apt-get install -y sudo
-          sudo chmod u+s $(which sudo)  # Allow sudo to work
-
-      - name: Set up AWS CLI
-        run: |
-          echo ${{ secrets.AWS_ACCESS_KEY_ID }} > aws_access_key_id
-          echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} > aws_secret_access_key
-          aws configure set aws_access_key_id $(cat aws_access_key_id)
-          aws configure set aws_secret_access_key $(cat aws_secret_access_key)
-          
-      - name: cml_run
+      - uses: actions/checkout@v3
+      - name: Train model
         env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          sudo pip install dvc==3.23.0
-          sudo pip install -r requirements.txt
-          dvc pull
-          dvc repro 
+          # Install requirements
+          pip install -r requirements.txt
 
+          # Pull data & run-cache from S3 and reproduce pipeline
+          dvc pull data --run-cache
+          dvc repro
+
+          # Report metrics
+          echo "## Metrics" >> report.md
           git fetch --prune
-          dvc artifact/metrics diff --show-md master > report.md
-
+          dvc metrics diff master --show-md >> report.md
           # Add figure to the report
           echo "## Validating results by region"
           cml-publish artifact/by_region.png --md >> report.md
