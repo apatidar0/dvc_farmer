@@ -5,7 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.10
     steps:
-      - uses: actions/checkout@v2
+      - name: Set up AWS CLI
+        run: |
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }} > aws_access_key_id
+          echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} > aws_secret_access_key
+          aws configure set aws_access_key_id $(cat aws_access_key_id)
+          aws configure set aws_secret_access_key $(cat aws_secret_access_key)
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
