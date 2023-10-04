@@ -11,13 +11,23 @@ jobs:
         run: |
           python -m pip install --upgrade pip
 
+      - name: Update OpenSSL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssl
+
       - name: Set up AWS CLI
         run: |
           echo ${{ secrets.AWS_ACCESS_KEY_ID }} > aws_access_key_id
           echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} > aws_secret_access_key
           aws configure set aws_access_key_id $(cat aws_access_key_id)
           aws configure set aws_secret_access_key $(cat aws_secret_access_key)
+          
       - uses: actions/checkout@v2
+
+      - name: Reinstall DVC
+        run: pip install --force-reinstall dvc
+
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -28,4 +38,3 @@ jobs:
 
           git fetch --prune
           dvc metrics diff --show-md master > report.md
-
