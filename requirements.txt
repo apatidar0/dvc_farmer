@@ -1,5 +1,6 @@
-dvc==3.23.0
+dvc
 scikit-learn
 pandas
 seaborn
 matplotlib
+dvc_s3
