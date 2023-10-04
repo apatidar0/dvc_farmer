@@ -2,8 +2,8 @@ name: farmers
 on: [push]
 jobs:
   run:
-    runs-on: [python:3.10]
-    container: docker://dvcorg/cml-py3:latest
+    runs-on: ubuntu-latest
+    container: python:3.10
     steps:
       - uses: actions/checkout@v2
       - name: cml_run
