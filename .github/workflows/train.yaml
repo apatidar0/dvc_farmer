@@ -12,6 +12,7 @@ jobs:
         run: |
           pip install dvc==3.23.0
           pip install -r requirements.txt
+          dvc pull
           dvc repro 
 
           git fetch --prune
